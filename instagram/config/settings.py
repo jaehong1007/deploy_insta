@@ -41,6 +41,7 @@ SECRET_KEY = config_secret_common['django']['secret_key']
 
 # instagram_project/instagram/media/
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # instagram_project/instagram/static/
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
