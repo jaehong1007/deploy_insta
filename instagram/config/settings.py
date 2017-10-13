@@ -39,6 +39,11 @@ SECRET_KEY = config_secret_common['django']['secret_key']
 
 # 4. .gitignore 에 .config_secret/ 폴더를 추가
 
+# instagram_project/instagram/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# instagram_project/instagram/static/
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
