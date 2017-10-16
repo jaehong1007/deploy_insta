@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 
 from .models import Post, PostComment
 from django.shortcuts import render, redirect
@@ -18,14 +17,14 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
-def upload_photo(request):
+def post_create(request):
     if request.method == 'POST':
-        photo = request.FILES['uploaded_photo']
-        Post.objects.create(photo=photo)
-
-        return HttpResponse('success')
-
-    return render(request, 'post/post_list.html')
+        print(request.POST)
+        print(request.FILES)
+        # photo = request.FILES['photo']
+        # Post.objects.create(photo=photo)
+    elif request.method == 'GET':
+        return render(request, 'post/post_create.html')
 
 
 def add_comment(request, pk):

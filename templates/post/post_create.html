@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="photo">
+
+        <button>작성하기</button>
+
+    </form>
+
+</div>
+{% endblock %}
