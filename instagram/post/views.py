@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
 from .models import Post, PostComment
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def post_list(request):
@@ -27,3 +27,13 @@ def upload_photo(request):
 
     return render(request, 'post/post_list.html')
 
+
+def add_comment(request, pk):
+    if request.method == 'POST':
+        post = Post.objects.get(pk=pk)
+        content = request.POST.get('content')
+        PostComment.objects.create(
+            post=post,
+            content=content,
+        )
+        return redirect('post_list')

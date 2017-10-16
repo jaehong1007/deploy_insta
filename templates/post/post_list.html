@@ -8,10 +8,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div>
-    {% for post in posts %}
-    <img src="{{post.photo.url}}" width=75% height=75% alt="">
-    {% endfor %}
+    <div>
+        {% for post in posts %}
+        <img src="{{post.photo.url}}" width=75% height=75% alt="">
+        {% endfor %}
+    </div>
 </div>
 
 <div>
@@ -22,13 +25,11 @@
     </form>
 
 </div>
-
-{% for comment in post.comments.all %}
+<div>
+{% for post in posts %}
     <div class="comment">
-        <p>{{ comment.text|linebreaks }}</p>
+        <p>{{ post.comment.content }}</p>
     </div>
-{% empty %}
-    <p>No comments here yet :(</p>
 {% endfor %}
-
+</div>
 {% endblock %}
