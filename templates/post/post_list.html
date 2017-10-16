@@ -12,7 +12,9 @@
 <div>
     <div>
         {% for post in posts %}
-        <img src="{{post.photo.url}}" width=75% height=75% alt="">
+        <a href="{% url 'post_detail' post_pk=post.pk %}">
+            <img src="{{post.photo.url}}" width=75% height=75% alt="">
+        </a>
         {% endfor %}
     </div>
 </div>
@@ -21,12 +23,6 @@
         <<a class="btn btn-default btn-sm btn-back-list btn-write " href="{% url 'post_create' %}">글 작성</a>
     </button>
 </div>
-<div>
-{% for post in posts %}
-    <div class="comment">
-        <p>{{ post.comment.content }}</p>
-    </div>
-{% endfor %}
-</div>
+
 {% endblock %}
 

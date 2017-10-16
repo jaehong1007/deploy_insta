@@ -19,12 +19,14 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from post.views import post_list, post_create
+from post.views import post_list, post_create, post_detail, comment_create
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^post/$', post_list, name='post_list'),
-    url(r'^post/create/$', post_create, name='post_create')
+    url(r'^post/create/$', post_create, name='post_create'),
+    url(r'^post/(?P<post_pk>\d+)/$', post_detail, name='post_detail'),
+    url(r'^post/(?P<post_pk>\d+)/comment/create/$', comment_create, name='comment_create')
 
 ]
 urlpatterns += static(
