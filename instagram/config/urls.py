@@ -14,23 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from config import settings
+from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from post.views import post_list, post_create, post_detail, comment_create
+from post import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^post/$', post_list, name='post_list'),
-    url(r'^post/create/$', post_create, name='post_create'),
-    url(r'^post/(?P<post_pk>\d+)/$', post_detail, name='post_detail'),
-    url(r'^post/(?P<post_pk>\d+)/comment/create/$', comment_create, name='comment_create')
-
+    url(r'^post/$',
+        views.post_list,
+        name='post_list'),
+    url(r'^post/create/$',
+        views.post_create,
+        name='post_create'),
+    url(r'^post/(?P<post_pk>\d+)/$',
+        views.post_detail,
+        name='post_detail'),
+    url(r'^post/(?P<post_pk>\d+)/comment/create/$',
+        views.comment_create,
+        name='comment_create'),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
+    document_root=settings.MEDIA_ROOT,
 )
-
