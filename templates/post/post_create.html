@@ -1,13 +1,7 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
 <div>
-    <form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <button>작성하기</button>
-    </form>
-
+	<form action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form }}
+		<button>글 쓰기</button>
+	</form>
 </div>
-{% endblock %}

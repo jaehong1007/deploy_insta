@@ -7,14 +7,18 @@ __all__ = (
 
 class PostForm(forms.Form):
     photo = forms.ImageField(
-        required=True
-
+        required=True,
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
     )
     text = forms.CharField(
         max_length=5,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control'
+                'class': 'form-control',
             }
         )
     )
@@ -28,5 +32,9 @@ class PostForm(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(
-        widget=forms.Textarea,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        ),
     )

@@ -61,27 +61,36 @@ def post_create(request):
 
 def post_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
+    comment_form = CommentForm()
     context = {
-        'post': post
+        'post': post,
+        'comment_form': comment_form
     }
     return render(request, 'post/post_detail.html', context)
 
 
 def comment_create(request, post_pk):
+    """
+    post_pk에 해당하는 Post에 연결된 PostComment를 작성
+    PostComment Form을 생성해서 사용
+    기본적인 루틴은 위의 post_create와 같음
+    :param request:
+    :param post_pk:
+    :return:
+    """
+    # URL get parameter로 온 'post_pk'에 해당하는
+    # Post instance를 'post'변수에 할당
+    # 찾지못하면 404Error를 브라우저에 리턴
     post = get_object_or_404(Post, pk=post_pk)
     if request.method == 'POST':
+        # 데이터가 바인딩된 CommentForm인스턴스를 form에 할당
         form = CommentForm(request.POST)
+        # 유효성 검증
         if form.is_valid():
-            comment = PostComment.objects.create(
+            # 통과한 경우, post에 해당하는 Comment인스턴스를 생성
+            PostComment.objects.create(
                 post=post,
-                content=content,
+                content=form.cleaned_data['content']
             )
-        # post = Post.objects.get(pk=post_pk)
-        # content = request.POST.get('content')
-        return redirect('post_detail', post_pk=pk)
-    else:
-        form = CommentForm()
-        context = {
-            'form': form
-        }
-        return render(request, 'post/comment_create.html/', context)
+            # 생성 후 Post의 detail화면으로 이동
+            return redirect('post_detail', post_pk=post_pk)
