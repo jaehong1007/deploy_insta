@@ -4,8 +4,22 @@
 {% if post.photo %}
 <img src="{{post.photo.url}}" width=75% height=75% alt="">
 <p>{{ post.created_at}} </p>
-<p>{ postcomment.content_set.all }</p>
+g
+<ul>{ postcomment.content_set.all }</ul>
 {% else %}
 <h3>이미지 파일이 없습니다.</h3>
 {% endif %}
+<form action="">
+    <button>
+
+    </button>
+</form>
+
+
+<ul>
+    {% for comment in post.comments.all %}
+    <li>
+        {{ comment.content }}
+    </li>
+</ul>
 {% endblock %}
