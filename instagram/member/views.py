@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
 from django.shortcuts import render, redirect
 
-from member.forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm
 
 
 def signup(request):
@@ -11,12 +12,14 @@ def signup(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            if User.objects.filter(username=username).exists():
+                return redirect('signup')
             user = User.objects.create_user(
                 username=username,
                 password=password,
             )
             user.save()
-        return redirect('signin')
+        return redirect('signup')
         # return HttpResponse(f'{user.username}, {user.password}')
     else:
         form = SignupForm
