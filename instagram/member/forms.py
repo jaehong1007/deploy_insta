@@ -18,7 +18,14 @@ class SignupForm(forms.Form):
             }
         )
     )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
 
+    )
     # clean_<field_name>
 
     def clean_username(self):
@@ -26,6 +33,30 @@ class SignupForm(forms.Form):
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError('Username already exists')
         return data
+
+    def clean_password2(self):
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password2']
+        if password != password2:
+            raise forms.ValidationError('Password does not Match')
+        return password
+
+    def clean(self):
+        if self.is_valid():
+            setattr(self, 'signup', self._signup)
+        return self.cleaned_data
+
+    def _signup(self):
+        """
+        User를 생성
+        :return:
+        """
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        return User.objects.create_user(
+            username=username,
+            password=password
+        )
 
 
 class LoginForm(forms.Form):
@@ -54,12 +85,20 @@ class LoginForm(forms.Form):
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
 
-        user = authenticate(
+        self.user = authenticate(
             username=username,
             password=password
         )
-        if not user:
+        if not self.user:
             raise forms.ValidationError('Invalid login credentials')
+        else:
+            setattr(self, 'login', self._login)
 
-    def login(self, request):
-        print(self.user)
+    def _login(self, request):
+        """
+
+        :param request: django.contrib.auth.login()
+        :return:
+        """
+        django_login(request, self.user)
+

@@ -9,10 +9,11 @@
 {% else %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form }}
+    ID<input type="text" name="username">
+    PASSWORD<input type="password" name="password">
     <button class="btn-primary" type="submit">Login</button>
 </form>
 <hr>
-<a href="{%url 'singup"></a><button>회원가입</button>
+<a href="{% url 'signup' %}"><button>회원가입</button></a>
 {% endif %}
 {% endblock %}

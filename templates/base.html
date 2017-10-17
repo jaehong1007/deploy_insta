@@ -14,6 +14,13 @@
 <div class="container">
 
 	<a class ="head" href="{% url 'post_list' %}"><h1>YabInstagram</h1></a>
+	<p>
+			{% if user.is_authenticated %}
+				<h3>Welcome {{ user.username }}</h3>
+			{% else %}
+				로그인해주세요
+			{% endif %}
+		</p>
 	<hr>
 
 	{% block content %}
