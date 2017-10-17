@@ -40,10 +40,10 @@ urlpatterns = [
         member_views.signup,
         name='signup'),
     url(r'^members/login/$',
-        member_views.signin,
+        member_views.login,
         name='signin'),
     url(r'^members/logout/$',
-        member_views.signout,
+        member_views.logout,
         name='signout'),
 ]
 

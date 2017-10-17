@@ -1,0 +1,12 @@
+.container > .head{
+    color: blue;
+    text-decoration: none;
+    font-size: 50px;
+    font-family: Cursive;
+
+}
+
+.container > .user_sign{
+    float: right;
+    margin-bottom: 5px;
+}

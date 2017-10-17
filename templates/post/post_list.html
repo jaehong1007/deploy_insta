@@ -6,34 +6,52 @@
 <!--extra1) urls.py모듈을 post애플리케이션 내부에 생성하고,
 						include를 이용해서 root urls.py모듈에서 사용-->
 <!--extra2) 사진 댓글 지우기, 사진 지우기-->
+{% extends 'base.html' %}
 
-<div>
-	<a href="#last">Last Page</a>
-	{% for post in posts %}
-	<div id="post-{{ post.pk }}">
-		<a href="{% url 'post_detail' post_pk=post.pk %}">
-			<img src="{{ post.photo.url }}" width=75% height=75%>
-		</a>
-		<!--
-		각 post마다 comment_form을 추가
-		각 post마다 자신의 댓글 목록을 출력
-		-->
-
-		<form action="{% url 'comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
-			{% csrf_token %}
-			{{ comment_form }}
-			<button class="btn btn-primary btn-block">댓글달기</button>
-		</form>
-
-		<ul id="post-comments-{{ post.pk }}">
-			{% for comment in post.comments.all %}
-			<li>{{ comment.content }}</li>
-			{% endfor %}
-		</ul>
-	</div>
-	{% endfor %}
-
-	<div id="last">Last</div>
+{% block content %}
+<div class="top"></div>
+<a href="#last">Last Page</a>
+{% if user.is_active %}
+<div class="user_sign">
+<a href="{% url 'signout' %}">Logout</a>
 </div>
+{% else %}
+<div class="user_sign">
+    <a href="{% url 'signin' %}">
+        <button class="btn btn-sm btn-link">로그인</button>
+    </a>
+    <a href="{% url 'signup' %}">
+        <button class="btn-primary btn btn-sm btn-link">회원가입</button>
+    </a>
+</div>
+{% endif %}
+{% for post in posts %}
+<div id="post-{{ post.pk }}">
+    <a href="{% url 'post_detail' post_pk=post.pk %}">
+        <img src="{{ post.photo.url }}" width=100% height=100%>
+    </a>
+    <!--
+    각 post마다 comment_form을 추가
+    각 post마다 자신의 댓글 목록을 출력
+    -->
+
+    <form action="{% url 'comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button class="btn btn-primary btn-block">댓글달기</button>
+    </form>
+
+    <ul id="post-comments-{{ post.pk }}">
+        {% for comment in post.comments.all %}
+        <li>{{ comment.content }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
+
+<div id="last"></div>
+</div>
+<a href="#top">Go Top</a>
+{% endblock %}
 
 
