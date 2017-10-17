@@ -19,6 +19,7 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from member.views import signup, signin, signout
 from post import views
 
 urlpatterns = [
@@ -35,7 +36,11 @@ urlpatterns = [
     url(r'^post/(?P<post_pk>\d+)/comment/create/$',
         views.comment_create,
         name='comment_create'),
+    url(r'^members/signup/$', signup, name='signup'),
+    url(r'^members/login/$', signin, name='signin'),
+    url(r'^members/logout/$', signout, name='signout'),
 ]
+
 urlpatterns += static(
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT,
