@@ -16,7 +16,11 @@ def login(request):
         else:
             return HttpResponse('Login credential invalid')
     else:
-        return render(request, 'member/login.html')
+        form = LoginForm()
+    context = {
+        'login_form': form
+    }
+    return render(request, 'member/login.html', context)
 
 
 def signup(request):
@@ -29,7 +33,7 @@ def signup(request):
     else:
         form = SignupForm
     context = {
-        'form': form,
+        'signup_form': form,
     }
     return render(request, 'member/signup.html', context)
 
