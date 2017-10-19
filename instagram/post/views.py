@@ -15,7 +15,7 @@ def post_list(request):
     :param request:
     :return:
     """
-    posts = Post.objects.all()
+    posts = Post.objects.exclude(author=None)
     comment_form = CommentForm()
     context = {
         'posts': posts,
