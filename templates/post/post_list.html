@@ -13,17 +13,17 @@
 <a href="#last">Last Page</a>
 {% if user.is_authenticated %}
 <div class="user_sign">
-    <a href="{% url 'post_create' %}">
+    <a href="{% url 'post:post_create' %}">
     <button class="btn btn-sm btn-link">글쓰기</button>
         </a>
-<a href="{% url 'signout' %}">Logout</a>
+<a href="{% url 'member:signout' %}">Logout</a>
 </div>
 {% else %}
 <div class="user_sign">
-    <a href="{% url 'signin' %}">
+    <a href="{% url 'member:signin' %}">
         <button class="btn btn-sm btn-link">로그인</button>
     </a>
-    <a href="{% url 'signup' %}">
+    <a href="{% url 'member:signup' %}">
         <button class="btn-primary btn btn-sm btn-link">회원가입</button>
     </a>
 </div>
@@ -31,7 +31,7 @@
 <hr>
 {% for post in posts %}
 <div id="post-{{ post.pk }}">
-    <a href="{% url 'post_detail' post_pk=post.pk %}">
+    <a href="{% url 'post:post_detail' post_pk=post.pk %}">
         <img src="{{ post.photo.url }}" width=100% height=100%>
     </a>
     <!--
@@ -43,7 +43,7 @@
         <li>{{ comment.content }}</li>
         {% endfor %}
     </ul>
-    <form action="{% url 'comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+    <form action="{% url 'post:comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
         {% csrf_token %}
         {{ comment_form }}
         <button class="btn btn-primary btn-block">댓글달기</button>

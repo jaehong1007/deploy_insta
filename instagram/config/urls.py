@@ -15,36 +15,19 @@ Including another URLconf
 """
 
 from django.conf import settings
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from post import views as post_views
-from member import views as member_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^post/$',
-        post_views.post_list,
-        name='post_list'),
-    url(r'^post/create/$',
-        post_views.post_create,
-        name='post_create'),
-    url(r'^post/(?P<post_pk>\d+)/$',
-        post_views.post_detail,
-        name='post_detail'),
-    url(r'^post/(?P<post_pk>\d+)/comment/create/$',
-        post_views.comment_create,
-        name='comment_create'),
-    url(r'^members/signup/$',
-        member_views.signup,
-        name='signup'),
-    url(r'^members/login/$',
-        member_views.login,
-        name='signin'),
-    url(r'^members/logout/$',
-        member_views.logout,
-        name='signout'),
+    # Post application
+    url(r'^post/', include('post.urls', namespace='post')),
+
+    # Member application
+    url(r'^members/', include('member.urls', namespace='member')),
+
 ]
 
 urlpatterns += static(

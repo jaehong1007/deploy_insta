@@ -13,7 +13,7 @@
 <body>
 <div class="container">
 
-	<a class ="head" href="{% url 'post_list' %}"><h1>YabInstagram</h1></a>
+	<a class ="head" href="{% url 'post:post_list' %}"><h1>YabInstagram</h1></a>
 	<p>
 			{% if user.is_authenticated %}
 				<h4>Welcome {{ user.username }}</h4>
