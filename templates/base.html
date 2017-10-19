@@ -16,7 +16,7 @@
 	<a class ="head" href="{% url 'post_list' %}"><h1>YabInstagram</h1></a>
 	<p>
 			{% if user.is_authenticated %}
-				<h3>Welcome {{ user.username }}</h3>
+				<h4>Welcome {{ user.username }}</h4>
 			{% else %}
 				로그인해주세요
 			{% endif %}

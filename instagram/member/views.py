@@ -1,5 +1,4 @@
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout
-from django.contrib.auth.models import User
+from django.contrib.auth import logout as django_logout
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
@@ -40,4 +39,4 @@ def signup(request):
 
 def logout(request):
     django_logout(request)
-    return redirect('signin')
+    return redirect('post_list')

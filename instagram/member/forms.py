@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, login as django_login
-from django.contrib.auth.models import User
+from member.models import User
 
 
 class SignupForm(forms.Form):
