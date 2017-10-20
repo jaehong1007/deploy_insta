@@ -110,7 +110,8 @@ def comment_create(request, post_pk):
                 author=request.user
             )
             # 생성 후 Post의 detail화면으로 이동
-            next = request.GET.get('next')
+            next = request.GET.get('next', '').strip()
+            print(next)
             if next:
                 return redirect(next)
             return redirect('post:post_list')
