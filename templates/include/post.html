@@ -1,5 +1,5 @@
 <div id="post-{{ post.pk }}" class="panel panel-default post">
-    <div class="panel-heading"><p>{{ post.author }}</p></div>
+    <div class="panel-heading"><span>{{ post.author.username }}</span></div>
     <div class="panel-body">
 
         <a href="{% url 'post:post_detail' post_pk=post.pk %}">
@@ -9,13 +9,14 @@
 
             <ul id="post-comments-{{ post.pk }}">
                 {% for comment in post.comments.all %}
-                <li>{{ comment.content }}</li>
-                <li>
-                    <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
+
+                    <li>{{ comment.content }}
+                <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
                         {% csrf_token %}
                         <button class="btn-danger btn-xs pull-right">댓글 삭제</button>
                     </form>
                 </li>
+
                 {% endfor %}
             </ul>
             <form
