@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 
-from .forms import SignupForm, LoginForm
+from .forms import LoginForm, SignUpForm
 
 
 def login(request):
@@ -24,14 +24,14 @@ def login(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.signup()
+            user = form.save()
             django_login(request, user)
             return redirect('post:post_list')
         # return HttpResponse(f'{user.username}, {user.password}')
     else:
-        form = SignupForm
+        form = SignUpForm
     context = {
         'signup_form': form,
     }

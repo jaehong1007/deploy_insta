@@ -37,11 +37,9 @@ def post_create(request):
         # form생성과정에서 전달된 데이터들이 Form의 모든 field들에 유효한지 검사
         if form.is_valid():
             # 유효할 경우 Post인스턴스를 생성 및 저장
-            print(form.cleaned_data)
-            Post.objects.create(
-                author=request.user,
-                photo=form.cleaned_data['photo']
-            )
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect('post:post_list')
     else:
         # GET요청의 경우, 빈 PostForm인스턴스를 생성해서 템플릿에 전달
@@ -117,24 +115,27 @@ def comment_create(request, post_pk):
         # 유효성 검증
         if form.is_valid():
             # 통과한 경우, post에 해당하는 Comment인스턴스를 생성
-            PostComment.objects.create(
-                post=post,
-                content=form.cleaned_data['content'],
-                author=request.user
-            )
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
             # 생성 후 Post의 detail화면으로 이동
             next = request.GET.get('next', '').strip()
-            print(next)
             if next:
                 return redirect(next)
             return redirect('post:post_list')
 
 
 def comment_delete(request, comment_pk):
-    if not request.user.is_authenticated:
-        return HttpResponse('Access Denied')
-    comment = PostComment.objects.get(pk=comment_pk)
+    next_path = request.GET.get('next').strip()
     if request.method == 'POST':
-        comment.delete()
-        return redirect('post:post_list')
+        comment = get_object_or_404(PostComment, pk=comment_pk)
+        if comment.author == request.user:
+            comment.delete()
+            if next_path:
+                return redirect(next_path)
+
+            return redirect('post:post_detail', post_pk=comment.post.pk)
+        else:
+            raise PermissionDenied('작성자가 아닙니다')
 
