@@ -1,0 +1,30 @@
+<div id="post-{{ post.pk }}" class="panel panel-default post">
+    <div class="panel-heading"><p>{{ post.author }}</p></div>
+    <div class="panel-body">
+
+        <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+            <img src="{{ post.photo.url }}" class="img-post">
+        </a>
+        <div class="body-content">
+
+            <ul id="post-comments-{{ post.pk }}">
+                {% for comment in post.comments.all %}
+                <li>{{ comment.content }}</li>
+                <li>
+                    <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn-danger btn-xs pull-right">댓글 삭제</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            <form
+                    action="{% url 'post:comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}"
+                    method="POST">
+                {% csrf_token %}
+                {{ comment_form }}
+                <button class="btn btn-primary btn-block">댓글달기</button>
+            </form>
+        </div>
+    </div>
+</div>
