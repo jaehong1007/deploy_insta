@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -52,6 +53,18 @@ def post_create(request):
         'form': form,
     }
     return render(request, 'post/post_create.html', context)
+
+
+def post_delete(request, post_pk):
+    if request.method == 'POST':
+        # post_pk에 해당하는 Post가 있는지 검사
+        post = get_object_or_404(Post, pk=post_pk)
+        # request.user가 Post의 author인지 검사
+        if post.author == request.user:
+            post.delete()
+            return redirect('post:post_list')
+        else:
+            raise PermissionDenied
 
 
 def post_detail(request, post_pk):
@@ -117,15 +130,6 @@ def comment_create(request, post_pk):
             return redirect('post:post_list')
 
 
-def post_delete(request, post_pk):
-    if not request.user.is_authenticated:
-        return HttpResponse('Access Denied')
-    if request.method == 'POST':
-        post = Post.objects.get(pk=post_pk)
-        post.delete()
-    return redirect('post:post_list')
-
-
 def comment_delete(request, comment_pk):
     if not request.user.is_authenticated:
         return HttpResponse('Access Denied')
@@ -133,3 +137,4 @@ def comment_delete(request, comment_pk):
     if request.method == 'POST':
         comment.delete()
         return redirect('post:post_list')
+

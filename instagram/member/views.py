@@ -1,4 +1,4 @@
-from django.contrib.auth import logout as django_logout
+from django.contrib.auth import logout as django_logout, login as django_login
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
@@ -27,7 +27,8 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.signup()
-            return HttpResponse(f'{user.username}, {user.password}')
+            django_login(request, user)
+            return redirect('post:post_list')
         # return HttpResponse(f'{user.username}, {user.password}')
     else:
         form = SignupForm

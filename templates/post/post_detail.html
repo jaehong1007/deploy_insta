@@ -3,10 +3,5 @@
 {% block content %}
     {% include 'include/post.html' with post_type='detail' %}
 
-<div>
-    <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Delete"/>
-    </form>
-</div>
+
 {% endblock %}
