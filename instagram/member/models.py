@@ -19,6 +19,12 @@ class User(AbstractUser):
         'post.Post',
         verbose_name='좋아요 누른 포스트 목록'
     )
+    followed_users = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        through='Relation',
+        related_name='followers'
+    )
 
     objects = UserManager()
 
@@ -27,3 +33,12 @@ class User(AbstractUser):
         verbose_name_plural = f'{verbose_name} 목록'
 
 
+class Relation(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed_users_relations')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_relations')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Relation (' \
+               f'from: {self.from_user.username},' \
+               f'to: {self.to_user.username})'

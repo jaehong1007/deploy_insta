@@ -1,16 +1,22 @@
-from django.contrib.auth import logout as django_logout, login as django_login
+from django.contrib.auth import logout as django_logout, login as django_login, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 
 from .forms import LoginForm, SignUpForm
 
+User = get_user_model()
+
 
 def login(request):
+    next_path = request.GET.get('next')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             form.login(request)
+            if next_path:
+                return redirect(next_path)
             return redirect('post:post_list')
         else:
             return HttpResponse('Login credential invalid')
@@ -41,3 +47,8 @@ def signup(request):
 def logout(request):
     django_logout(request)
     return redirect('post:post_list')
+
+
+@login_required
+def profile(request):
+    return HttpResponse(f'User profile page {request.user}')
