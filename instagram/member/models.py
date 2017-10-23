@@ -19,7 +19,7 @@ class User(AbstractUser):
         'post.Post',
         verbose_name='좋아요 누른 포스트 목록'
     )
-    followed_users = models.ManyToManyField(
+    following_users = models.ManyToManyField(
         'self',
         symmetrical=False,
         through='Relation',
@@ -32,9 +32,32 @@ class User(AbstractUser):
         verbose_name = '사용자'
         verbose_name_plural = f'{verbose_name} 목록'
 
+    def follow_toggle(self, user):
+
+        if not isinstance(user, User):
+            raise ValueError('"user" argument must be User instance!')
+        relation, relation_created = self.following_user_relations.get_or_create(to_user=user)
+        if relation_created:
+            relation.delete()
+            return True
+        return False
+
+        #
+        # if user in self.following_users.all():
+        #     Relation.objects.filter(
+        #         from_user=self,
+        #         to_user=user,
+        #     ).delete()
+        # else:
+        #     self.following_users_relations.create(to_user=user)
+        #     Relation.objects.create(
+        #         from_user=self,
+        #         to_user=user,
+        #     )
+
 
 class Relation(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed_users_relations')
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_user_relations')
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_relations')
     created_at = models.DateTimeField(auto_now_add=True)
 

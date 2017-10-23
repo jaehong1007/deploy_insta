@@ -29,7 +29,10 @@
             <div class="collapse navbar-collapse" id="top-nav">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'member:profile' %}">Profile</a></li>
+                    <li><a href="{% url 'member:profile' %}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="True"></span>
+                        </a>
+                    </li>
                     <li><a href="{% url 'post:post_create' %}">+ Add Post</a></li>
                     <li><a href="{% url 'member:signout' %}">Logout</a></li>
                     {% else %}
