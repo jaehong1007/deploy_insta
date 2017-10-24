@@ -37,6 +37,14 @@ config_secret_common = json.loads(config_secret_common_str)
 
 SECRET_KEY = config_secret_common['django']['secret_key']
 
+# FACEBOOK
+FACEBOOK_APP_ID = config_secret_common['facebook']['app_id']
+FACEBOOK_SECRET_CODE = config_secret_common['facebook']['secret_code']
+FACEBOOK_SCOPE = ['user_frends',
+                  'public_profile',
+                  'email']
+
+
 # 4. .gitignore 에 .config_secret/ 폴더를 추가
 
 # instagram_project/instagram/media/
@@ -53,6 +61,8 @@ TEMPLATE_DIR = os.path.join(ROOT_DIR, 'templates')
 
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:login'
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
