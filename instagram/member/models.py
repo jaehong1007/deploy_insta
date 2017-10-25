@@ -37,6 +37,11 @@ class User(AbstractUser):
         through='Relation',
         related_name='followers'
     )
+    nickname = models.CharField(
+        '별명',
+        max_length=10,
+        # unique=True,
+    )
 
     objects = UserManager()
 

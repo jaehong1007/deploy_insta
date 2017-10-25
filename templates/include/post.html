@@ -1,6 +1,6 @@
 <div id="post-{{ post.pk }}" class="panel panel-default post">
 	<div class="panel-heading">
-		<span>{{ post.author.username }}</span>
+		<span><a href="{% url 'member:profile' user_pk=post.author.pk %}">{{ post.author.username }}</a></span>
 
 		{% if post.author == user %}
 		<form action="{% url 'post:post_delete' post_pk=post.pk %}" method="post">

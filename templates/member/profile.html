@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% if not request.user == target_user %}
+    <form action="{% url 'member:follower_list' user_pk=profile_user.pk %}" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-default" aria-label="Left Align">
+                        <span class="glyphicon
+                                {% if target_user in user.following_users.all %}
+                                    glyphicon-star
+                                {% else %}
+                                    glyphicon-star-empty
+                                {% endif %}"
+                                aria-hidden="true">
+                        </span>
+        </button>
+    </form>
+    {% endif %}
+</div>
+<div>
+    <p>{{ profile_user.nickname }}</p>
+    <hr>
+    <img src="{{ profile_user.img_profile.url }}" class="img-post" alt="">
+    <hr>
+    <div class="'post-detail-container">
+        {% for post in profile_user.post_set.all %}
+        <div>
+            <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+                <img src="{{ post.photo.url }}" class="img-post" alt="">
+            </a>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

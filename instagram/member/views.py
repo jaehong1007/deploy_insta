@@ -6,11 +6,11 @@ from django.contrib.auth import logout as django_logout, login as django_login, 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from config import settings
-from config.settings import FACEBOOK_APP_ID
+from member.models import Relation
 from .forms import LoginForm, SignUpForm
 
 User = get_user_model()
@@ -59,8 +59,12 @@ def logout(request):
 
 
 @login_required
-def profile(request):
-    return HttpResponse(f'User profile page {request.user}')
+def profile(request, user_pk):
+    user = User.objects.get(pk=user_pk)
+    context = {
+        'profile_user': user,
+    }
+    return render(request, 'member/profile.html', context)
 
 
 def facebook_login(request):
@@ -78,6 +82,12 @@ def facebook_login(request):
         scopes: list
         type: str
         user_id: str
+
+    class UserInfo():
+        def __init__(self, data):
+            self.id = data['id']
+            self.email = data.get('email', '')
+            self.url_picture = data['picture']['data']['url']
 
     app_id = settings.FACEBOOK_APP_ID
     app_secret_code = settings.FACEBOOK_SECRET_CODE
@@ -131,8 +141,31 @@ def facebook_login(request):
     }
     response = requests.get(url_graph_user_info, params_graph_user_info)
     result = response.json()
-    return HttpResponse(result.items())
-    # return HttpResponse(debug_token_info)
+    user_info = UserInfo(data=result)
+
+    username = f'fb_{user_info.id}'
+    # 위 username에 해당하는 User가 있는지 검사
+    if User.objects.filter(username=username).exists():
+        # 있으면 user에 해당 유저를 할당
+        user = User.objects.get(username=username)
+    else:
+        # 없으면 user에 새로 만든 User를 할당
+        user = User.objects.create_user(
+            user_type=User.USER_TYPE_FACEBOOK,
+            username=username,
+            age=0
+        )
+    # 유저를 로그인 시킴
+    django_login(request, user)
+    return redirect('post:post_list')
+    # return HttpResponse(result.items())
 
 
-
+def follower_list(request, user_pk):
+    if not request.user.is_authenticated:
+        return redirect('member:signin')
+    if request.method == 'POST':
+        from_user = request.user
+        to_user = User.objects.get(pk=user_pk)
+        from_user.follower_list(to_user)
+    return redirect('member:profile', pk=user_pk)

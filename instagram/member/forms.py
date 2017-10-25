@@ -94,6 +94,7 @@ class SignUpForm(UserCreationForm):
             'password2',
             'img_profile',
             'age',
+            'nickname',
         )
         widgets = {
             'username': forms.TextInput(
@@ -101,12 +102,12 @@ class SignUpForm(UserCreationForm):
                     'class': 'form-control'
                 }
             ),
-            'img_profile': forms.ClearableFileInput(
+            'age': forms.NumberInput(
                 attrs={
                     'class': 'form-control'
                 }
             ),
-            'age': forms.NumberInput(
+            'nickname': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }
