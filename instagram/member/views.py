@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from config import settings
+from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_SCOPE, FACEBOOK_SECRET_CODE
 from member.models import Relation
 from .forms import LoginForm, SignUpForm
 
@@ -31,8 +32,8 @@ def login(request):
         form = LoginForm()
     context = {
         'login_form': form,
-        'facebook_app_id': settings.FACEBOOK_APP_ID,
-        'scope': settings.FACEBOOK_SCOPE,
+        'facebook_app_id': FACEBOOK_APP_ID,
+        'scope': FACEBOOK_SCOPE,
     }
     return render(request, 'member/login.html', context)
 
@@ -89,8 +90,8 @@ def facebook_login(request):
             self.email = data.get('email', '')
             self.url_picture = data['picture']['data']['url']
 
-    app_id = settings.FACEBOOK_APP_ID
-    app_secret_code = settings.FACEBOOK_SECRET_CODE
+    app_id = FACEBOOK_APP_ID
+    app_secret_code = FACEBOOK_SECRET_CODE
     app_access_token = f'{app_id}|{app_secret_code}'
     code = request.GET.get('code')
 
@@ -161,11 +162,9 @@ def facebook_login(request):
     # return HttpResponse(result.items())
 
 
-def follower_list(request, user_pk):
-    if not request.user.is_authenticated:
-        return redirect('member:signin')
+def follow_toggle(request, user_pk):
     if request.method == 'POST':
         from_user = request.user
         to_user = User.objects.get(pk=user_pk)
-        from_user.follower_list(to_user)
-    return redirect('member:profile', pk=user_pk)
+        from_user.follow_toggle(to_user)
+        return redirect('member:profile', user_pk=user_pk)

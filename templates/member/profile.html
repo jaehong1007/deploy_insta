@@ -3,17 +3,16 @@
 {% block content %}
 <div>
     {% if not request.user == target_user %}
-    <form action="{% url 'member:follower_list' user_pk=profile_user.pk %}" method="POST">
+    <form action="{% url 'member:follow_toggle' user_pk=profile_user.pk %}" method="POST">
         {% csrf_token %}
-        <button class="btn btn-default" aria-label="Left Align">
-                        <span class="glyphicon
-                                {% if target_user in user.following_users.all %}
-                                    glyphicon-star
-                                {% else %}
-                                    glyphicon-star-empty
-                                {% endif %}"
-                                aria-hidden="true">
-                        </span>
+        <button class="btn btn-default border-none" aria-label="Left Align">
+            <span class="glyphicon
+                                {% if profile_user in user.following_users.all %}
+                                    glyphicon-remove-circle aria-hidden=" true">언팔로우
+            {% else %}
+            glyphicon glyphicon-ok-circle aria-hidden="true">팔로우
+            {% endif %}
+            </span>
         </button>
     </form>
     {% endif %}
@@ -35,3 +34,26 @@
     </div>
 </div>
 {% endblock %}
+
+<div class="follower-container">
+    <div>
+        <p>팔로워</p>
+        {% if target_user.followers.exists %}
+        {% for user in target_user.followers.all %}
+        {{ user.username }}
+        {% endfor %}
+        {% else %}
+        <p>팔로우 하는 유저가 없습니다.</p>
+        {% endif %}
+    </div>
+    <div>
+        <p>팔로잉</p>
+        {% if target_user.following_users.exists %}
+        {% for user in target_user.following_users.all %}
+        {{ user.username }}
+        {% endfor %}
+        {% else %}
+        <p>팔로우 중인 유저가 없습니다.</p>
+        {% endif %}
+    </div>
+</div>
