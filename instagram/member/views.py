@@ -1,4 +1,3 @@
-from pprint import pprint
 from typing import NamedTuple
 
 import requests
@@ -9,7 +8,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from config import settings
 from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_SCOPE, FACEBOOK_SECRET_CODE
 from member.models import Relation
 from .forms import LoginForm, SignUpForm

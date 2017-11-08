@@ -29,7 +29,8 @@ class User(AbstractUser):
     age = models.IntegerField('나이')
     like_posts = models.ManyToManyField(
         'post.Post',
-        verbose_name='좋아요 누른 포스트 목록'
+        verbose_name='좋아요 누른 포스트 목록',
+        blank=True
     )
     following_users = models.ManyToManyField(
         'self',
@@ -40,7 +41,7 @@ class User(AbstractUser):
     nickname = models.CharField(
         '별명',
         max_length=10,
-        # unique=True,
+        unique=True,
     )
 
     objects = UserManager()
@@ -55,8 +56,8 @@ class User(AbstractUser):
             raise ValueError('"user" argument must be User instance!')
         relation, relation_created = self.following_user_relations.get_or_create(to_user=user)
         if relation_created:
-            relation.delete()
             return True
+        relation.delete()
         return False
 
         #

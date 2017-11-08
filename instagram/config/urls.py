@@ -28,10 +28,10 @@ urlpatterns = [
 
     # Member application
     url(r'^members/', include('member.urls', namespace='member')),
-
+    #
     # config
     url(r'^$', index, name='index'),
-
+    # url(r'^api/post/$', PostList.as_view(), name='api-post'),
 ]
 
 urlpatterns += static(

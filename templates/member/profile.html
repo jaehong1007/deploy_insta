@@ -20,7 +20,11 @@
 <div>
     <p>{{ profile_user.nickname }}</p>
     <hr>
-    <img src="{{ profile_user.img_profile.url }}" class="img-post" alt="">
+    {% if target_user.img_profile %}
+            <img src="{{ target_user.img_profile.url }}" alt="">
+        {% else %}
+            <img src="">
+        {% endif %}
     <hr>
     <div class="'post-detail-container">
         {% for post in profile_user.post_set.all %}

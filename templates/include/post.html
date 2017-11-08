@@ -37,6 +37,10 @@
 			<ul id="post-comments-{{ post.pk }}">
 				{% for comment in post.comments.all %}
 				<li>
+					<span>
+						<a href="{% url 'member:profile' user_pk=comment.author.pk %}">
+							{{ comment.author.username }} : </a>
+					</span>
 					<span>{{ comment.content }}</span>
 					{% if comment.author == user %}
 					<form action="{% url 'post:comment_delete' comment_pk=comment.pk %}?next=
