@@ -1,3 +1,4 @@
+import filecmp
 import io
 from random import randint
 
@@ -98,3 +99,14 @@ class PostListViewTest(APILiveServerTestCase):
             })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Post.objects.count(), 1)
+        post = Post.objects.get(pk=response.data['pk'])
+        print(path)
+        print(post.photo.file.name)
+        self.assertTrue(filecmp.cmp(path, post.photo.file.name))
+
+        # S3에 올라간 파일을 비교할 경우
+        # url = post.photo.url
+        # response = requests.get(url)
+        # with NamedTemporaryFile(suffix='.jpg', delete=False) as temp_file:
+        # temp_file.write(response.content)
+        # self. assertTrue(filecmp.cmp(path, temp_file.name))
