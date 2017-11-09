@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 
-from ....post import views
+from post import views
 
 
 class PostLikeToggleViewTest(TestCase):
