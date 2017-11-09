@@ -1,4 +1,3 @@
-from pprint import pprint
 
 from .base import *
 
@@ -37,5 +36,3 @@ FACEBOOK_SCOPE = [
     'public_profile',
     'email',
 ]
-
-pprint(DATABASES)

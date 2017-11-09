@@ -1,6 +1,8 @@
 import io
 from random import randint
 
+import os
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.urls import reverse, resolve
@@ -84,3 +86,15 @@ class PostListViewTest(APILiveServerTestCase):
         response = self.client.get(self.URL_API_POST_LIST)
         # author가 없는 Post개수는 response에 포함되지 않는지 확인
         self.assertEqual(len(response.data), num_posts)
+
+    def test_create_post(self):
+        user = self.create_user()
+        self.client.force_authenticate(user=user)
+        path = os.path.join(settings.STATIC_DIR, 'test', 'krystal.jpeg')
+
+        with open(path, 'rb') as photo:
+            response = self.client.post('/api/post/', {
+                'photo': photo,
+            })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Post.objects.count(), 1)
