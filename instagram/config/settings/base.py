@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'post',
     'rest_framework',
     'corsheaders',
+    'django_extensions',
 
 
 ]
