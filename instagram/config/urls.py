@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from config.views import index
+from member.apis import Login
 from post.apis import PostList, PostDetail
 
 urlpatterns = [
@@ -32,8 +33,10 @@ urlpatterns = [
     #
     # config
     url(r'^$', index, name='index'),
+    # api
     url(r'^api/post/$', PostList.as_view(), name='api-post'),
     url(r'^api/post/(?P<user_pk>\d+)/$', PostDetail.as_view(), name='api-post-detail'),
+    url(r'^api/member/login/$', Login.as_view(), name='api-login')
 ]
 
 urlpatterns += static(

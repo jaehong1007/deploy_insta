@@ -100,9 +100,8 @@ class PostListViewTest(APILiveServerTestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Post.objects.count(), 1)
         post = Post.objects.get(pk=response.data['pk'])
-        print(path)
-        print(post.photo.file.name)
-        self.assertTrue(filecmp.cmp(path, post.photo.file.name))
+        if settings.STATICFILES_STORAGE == 'django.contrib.staticfiles.storage.':
+            self.assertTrue(filecmp.cmp(path, post.photo.file.name))
 
         # S3에 올라간 파일을 비교할 경우
         # url = post.photo.url
