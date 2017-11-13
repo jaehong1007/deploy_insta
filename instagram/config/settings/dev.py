@@ -30,7 +30,7 @@ DATABASES = config_secret['django']['databases']
 
 # FACEBOOK
 FACEBOOK_APP_ID = config_secret['facebook']['app_id']
-FACEBOOK_SECRET_CODE = config_secret['facebook']['secret_code']
+FACEBOOK_APP_SECRET_CODE = config_secret['facebook']['secret_code']
 FACEBOOK_SCOPE = [
     'user_friends',
     'public_profile',
