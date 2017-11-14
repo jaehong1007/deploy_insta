@@ -17,7 +17,7 @@ class User(AbstractUser):
     USER_TYPE_DJANGO = 'd'
     CHOICES_USER_TYPE = (
         (USER_TYPE_FACEBOOK, 'Facebook'),
-        (USER_TYPE_DJANGO, 'Django'),
+        (USER_TYPE_DJANGO, 'Django')
     )
     user_type = models.CharField(
         max_length=1,
@@ -29,12 +29,13 @@ class User(AbstractUser):
         blank=True)
     age = models.IntegerField(
         '나이',
-        null=True,
+        null=True
     )
     like_posts = models.ManyToManyField(
         'post.Post',
         verbose_name='좋아요 누른 포스트 목록',
-        blank=True
+        blank=True,
+        related_name='like_users'
     )
     following_users = models.ManyToManyField(
         'self',
@@ -45,7 +46,7 @@ class User(AbstractUser):
     nickname = models.CharField(
         '별명',
         max_length=10,
-        null=True,
+        null=True
     )
 
     objects = UserManager()
