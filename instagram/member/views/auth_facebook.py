@@ -1,70 +1,23 @@
 from typing import NamedTuple
 
 import requests
-from django.contrib.auth import logout as django_logout, login as django_login, get_user_model
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth import login as django_login, get_user_model
+from django.http import JsonResponse
 
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 
 from config.settings import dev
-from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_SCOPE, FACEBOOK_APP_SECRET_CODE
-from .forms import LoginForm, SignUpForm
+from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET_CODE
+
 
 User = get_user_model()
 
-
-def login(request):
-    next_path = request.GET.get('next')
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            form.login(request)
-            if next_path:
-                return redirect(next_path)
-            return redirect('post:post_list')
-        else:
-            return HttpResponse('Login credential invalid')
-    else:
-        form = LoginForm()
-    context = {
-        'login_form': form,
-        'facebook_app_id': FACEBOOK_APP_ID,
-        'scope': FACEBOOK_SCOPE,
-    }
-    return render(request, 'member/login.html', context)
-
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            django_login(request, user)
-            return redirect('post:post_list')
-        # return HttpResponse(f'{user.username}, {user.password}')
-    else:
-        form = SignUpForm
-    context = {
-        'signup_form': form,
-    }
-    return render(request, 'member/signup.html', context)
-
-
-def logout(request):
-    django_logout(request)
-    return redirect('post:post_list')
-
-
-@login_required
-def profile(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-    context = {
-        'profile_user': user,
-    }
-    return render(request, 'member/profile.html', context)
+__all__ = (
+    'facebook_login',
+    'FrontFacebookLogin'
+)
 
 
 def facebook_login(request):
@@ -160,14 +113,6 @@ def facebook_login(request):
     django_login(request, user)
     return redirect('post:post_list')
     # return HttpResponse(result.items())
-
-
-def follow_toggle(request, user_pk):
-    if request.method == 'POST':
-        from_user = request.user
-        to_user = User.objects.get(pk=user_pk)
-        from_user.follow_toggle(to_user)
-        return redirect('member:profile', user_pk=user_pk)
 
 
 class FrontFacebookLogin(View):
