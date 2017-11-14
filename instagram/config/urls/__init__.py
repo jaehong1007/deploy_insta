@@ -10,6 +10,6 @@ urlpatterns = [
 ]
 
 urlpatterns += static(
-    settings.base.MEDIA_URL,
-    document_root=settings.base.MEDIA_ROOT,
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT,
 )

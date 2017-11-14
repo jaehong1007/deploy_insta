@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 User = get_user_model()
 
 __all__ = (
-    'follow_toggle'
+    'follow_toggle',
 )
 
 

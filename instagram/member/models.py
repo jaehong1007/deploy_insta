@@ -27,7 +27,10 @@ class User(AbstractUser):
         '프로필 이미지',
         upload_to='user',
         blank=True)
-    age = models.IntegerField('나이', blank=True)
+    age = models.IntegerField(
+        '나이',
+        null=True,
+    )
     like_posts = models.ManyToManyField(
         'post.Post',
         verbose_name='좋아요 누른 포스트 목록',
@@ -42,7 +45,7 @@ class User(AbstractUser):
     nickname = models.CharField(
         '별명',
         max_length=10,
-        unique=True,
+        null=True,
     )
 
     objects = UserManager()
@@ -64,19 +67,6 @@ class User(AbstractUser):
             return True
         relation.delete()
         return False
-
-        #
-        # if user in self.following_users.all():
-        #     Relation.objects.filter(
-        #         from_user=self,
-        #         to_user=user,
-        #     ).delete()
-        # else:
-        #     self.following_users_relations.create(to_user=user)
-        #     Relation.objects.create(
-        #         from_user=self,
-        #         to_user=user,
-        #     )
 
 
 class Relation(models.Model):

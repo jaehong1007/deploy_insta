@@ -5,6 +5,7 @@ from .. import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
     # Post application
     url(r'^post/', include('post.urls.views', namespace='post')),
 

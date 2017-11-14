@@ -5,8 +5,9 @@ from django.shortcuts import render
 User = get_user_model()
 
 __all__ = (
-    'profile'
+    'profile',
 )
+
 
 @login_required
 def profile(request, user_pk):
