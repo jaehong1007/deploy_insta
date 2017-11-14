@@ -1,3 +1,6 @@
+from member.models import User
+
+
 class FacebookBackend(object):
     def authenticate(self, request, facebook_user_id):
         try:

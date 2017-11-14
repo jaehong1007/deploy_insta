@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views import View
 
 from config.settings import dev
-from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_SCOPE, FACEBOOK_SECRET_CODE
+from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_SCOPE, FACEBOOK_APP_SECRET_CODE
 from member.models import Relation
 from .forms import LoginForm, SignUpForm
 
@@ -92,7 +92,7 @@ def facebook_login(request):
             self.url_picture = data['picture']['data']['url']
 
     app_id = FACEBOOK_APP_ID
-    app_secret_code = FACEBOOK_SECRET_CODE
+    app_secret_code = FACEBOOK_APP_SECRET_CODE
     app_access_token = f'{app_id}|{app_secret_code}'
     code = request.GET.get('code')
 

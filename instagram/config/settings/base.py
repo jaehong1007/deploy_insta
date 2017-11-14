@@ -54,6 +54,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'member.User'
+LOGIN_URL = 'member:login'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'member.backedns.FacebookBackend',
+]
 
 # Others
 WSGI_APPLICATION = 'config.wsgi.application'

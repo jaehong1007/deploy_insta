@@ -50,6 +50,10 @@ class User(AbstractUser):
         verbose_name = '사용자'
         verbose_name_plural = f'{verbose_name} 목록'
 
+    @property
+    def token(self):
+        return Token.objects.get_or_create(user=self)[0].key
+
     def follow_toggle(self, user):
 
         if not isinstance(user, User):
