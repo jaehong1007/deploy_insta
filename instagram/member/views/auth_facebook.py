@@ -9,8 +9,6 @@ from django.urls import reverse
 from django.views import View
 
 from config.settings import dev
-from config.settings.dev import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET_CODE
-
 
 User = get_user_model()
 
@@ -42,8 +40,8 @@ def facebook_login(request):
             self.email = data.get('email', '')
             self.url_picture = data['picture']['data']['url']
 
-    app_id = FACEBOOK_APP_ID
-    app_secret_code = FACEBOOK_APP_SECRET_CODE
+    app_id = dev.FACEBOOK_APP_ID
+    app_secret_code = dev.FACEBOOK_APP_SECRET_CODE
     app_access_token = f'{app_id}|{app_secret_code}'
     code = request.GET.get('code')
 
@@ -138,8 +136,8 @@ class FrontFacebookLogin(View):
             self.url_picture = data['picture']['data']['url']
 
     def get(self, request):
-        app_id = dev.FACEBOOK_APP_ID
-        app_secret_code = dev.FACEBOOK_APP_SECRET_CODE
+        app_id = settings.dev.FACEBOOK_APP_ID
+        app_secret_code = settings.dev.FACEBOOK_APP_SECRET_CODE
         app_access_token = f'{app_id}|{app_secret_code}'
         code = request.GET.get('code')
 

@@ -21,3 +21,14 @@ SECRET_KEY = ''.join(
     [random.choice(string.ascii_lowercase) for i in range(40)]
 )
 
+config_secret = json.loads(open(CONFIG_SECRET_LOCAL_FILE).read())
+
+
+# FACEBOOK
+FACEBOOK_APP_ID = config_secret['facebook']['app_id']
+FACEBOOK_APP_SECRET_CODE = config_secret['facebook']['secret_code']
+FACEBOOK_SCOPE = [
+    'user_friends',
+    'public_profile',
+    'email',
+]

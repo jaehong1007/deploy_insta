@@ -26,7 +26,13 @@ DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
 STATICFILES_STORAGE = 'config.storages.StaticStorage'
 
 # Databases
-DATABASES = config_secret['django']['databases']
+# DATABASES = config_secret['django']['databases']
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # FACEBOOK
 FACEBOOK_APP_ID = config_secret['facebook']['app_id']
