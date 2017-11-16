@@ -1,10 +1,13 @@
-from member.models import User
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-class FacebookBackend(object):
+class FacebookBackend:
     def authenticate(self, request, facebook_user_id):
         try:
-            return User.objects.get(username='fb_{facebook_user_id}')
+            return User.objects.get(username=f'fb_{facebook_user_id}')
         except User.DoesNotExist:
             return None
 

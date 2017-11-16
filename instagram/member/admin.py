@@ -2,7 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import SignUpForm
-from .models import User
+from .models import User, Relation
+
+
+class RelationInline(admin.TabularInline):
+    model = Relation
+    fk_name = 'from_user'
+    extra = 1
 
 
 class UserAdmin(BaseUserAdmin):
@@ -20,9 +26,10 @@ class UserAdmin(BaseUserAdmin):
                 'img_profile',
                 'age',
                 'user_type',
-            )
+            ),
         }),
     )
     add_form = SignUpForm
+    inlines = [RelationInline]
 
 admin.site.register(User, UserAdmin)
