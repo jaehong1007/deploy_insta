@@ -235,3 +235,5 @@ venv.bak/
 
 !.config_secret
 
+# Front code
+!/front/
