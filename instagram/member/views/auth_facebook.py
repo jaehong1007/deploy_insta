@@ -1,6 +1,7 @@
 from typing import NamedTuple
 
 import requests
+from django.conf import settings
 from django.contrib.auth import login as django_login, get_user_model
 from django.http import JsonResponse
 
@@ -29,7 +30,7 @@ def facebook_login(request):
         application: str
         expires_at: int
         is_valid: bool
-        issued_at: int
+        # issued_at: int
         scopes: list
         type: str
         user_id: str
@@ -124,7 +125,7 @@ class FrontFacebookLogin(View):
         application: str
         expires_at: int
         is_valid: bool
-        issued_at: int
+        # issued_at: int
         scopes: list
         type: str
         user_id: str

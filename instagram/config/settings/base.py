@@ -102,6 +102,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3001',
+    'front.localhost:8013',
+    'yabi.kr',
 )
 
 ROOT_URLCONF = 'config.urls'
