@@ -7,20 +7,17 @@ from member.models import User
 class UserModelTest(TransactionTestCase):
     DUMMY_USERNAME = 'username'
     DUMMY_PASSWORD = 'password'
-    DUMMY_AGE = 'age'
 
     def test_fields_default_value(self):
 
         user = User.objects.create_user(
             username=self.DUMMY_USERNAME,
             password=self.DUMMY_PASSWORD,
-            age=self.DUMMY_AGE,
         )
         self.assertEqual(user.first_name, '')
         self.assertEqual(user.last_name, '')
         self.assertEqual(user.username, self.DUMMY_USERNAME)
         self.assertEqual(user.img_profile, '')
-        self.assertEqual(user.age, self.DUMMY_AGE)
         self.assertEqual(user.following_users.count(), 0)
         self.assertEqual(user, authenticate(
             username=self.DUMMY_USERNAME,
@@ -29,8 +26,7 @@ class UserModelTest(TransactionTestCase):
 
     def test_follow(self):
         mina, hyeri, yura, sojin = [User.objects.create(
-            username=f'{name}',
-            age=0
+            username=f'{name}'
         ) for name in ['민아', '혜리', '유라', '소진']]
 
         mina.follow_toggle(hyeri)
@@ -45,12 +41,8 @@ class UserModelTest(TransactionTestCase):
         self.assertEqual(mina.following_users.count(), 3)
         self.assertEqual(hyeri.following_users.count(), 2)
         self.assertEqual(yura.following_users.count(), 1)
-        self.assertEqual(sojin.follwoing_users.count(), 0)
+        self.assertEqual(sojin.following_users.count(), 0)
 
         self.assertIn(hyeri, mina.following_users.all())
         self.assertIn(yura, mina.following_users.all())
         self.assertIn(sojin, mina.following_users.all())
-
-        self.assertIn(mina, hyeri.followers.all())
-        self.assertIn(mina, yura.followers.all())
-

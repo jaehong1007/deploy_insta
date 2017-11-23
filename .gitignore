@@ -207,6 +207,9 @@ venv.bak/
 .idea/
 .config_secret/
 
+# Travis CI
+secrets.tar
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
