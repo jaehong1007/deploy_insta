@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from member.serializer import UserSerializer
+from post.utlis.pagination import PostPagination
+
 from post.utlis.permissions import IsAuthorOrReadOnly
 from .models import Post
 from .serializer import PostSerializer
@@ -13,6 +15,7 @@ class PostList(generics.ListCreateAPIView):
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
     permission_classes = (
         # permissions.IsAuthenticatedOrReadOnly,
         permissions.IsAuthenticated,

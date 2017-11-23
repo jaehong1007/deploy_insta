@@ -13,6 +13,8 @@ import json
 import os
 
 # Paths
+import raven
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 TEMPLATE_DIR = os.path.join(ROOT_DIR, 'templates')
@@ -37,6 +39,13 @@ STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 # Media Paths
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 MEDIA_URL = '/media/'
+
+RAVEN_CONFIG = {
+    'dsn': 'https://b0122c0a4d7343c89ce0c3090ecbe42f:3b925345d2714248b0a0d87a8533a97f@sentry.io/248300',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+}
 
 # Auth
 AUTH_PASSWORD_VALIDATORS = [
@@ -69,7 +78,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 INSTALLED_APPS = [
@@ -86,6 +97,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework.authtoken',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [

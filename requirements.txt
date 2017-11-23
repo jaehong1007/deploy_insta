@@ -18,6 +18,7 @@ docker-py==1.7.2
 dockerpty==0.4.1
 docopt==0.6.2
 docutils==0.14
+future==0.16.0
 idna==2.6
 ipython==6.2.1
 ipython-genutils==0.2.0
@@ -36,9 +37,11 @@ Pygments==2.2.0
 python-dateutil==2.6.1
 pytz==2017.2
 PyYAML==3.12
+raven==6.3.0
 requests==2.9.1
 s3transfer==0.1.11
 semantic-version==2.5.0
+serializers==0.2.4
 simplegeneric==0.8.1
 six==1.11.0
 tabulate==0.7.5
