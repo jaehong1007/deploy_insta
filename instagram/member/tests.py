@@ -7,17 +7,20 @@ from member.models import User
 class UserModelTest(TransactionTestCase):
     DUMMY_USERNAME = 'username'
     DUMMY_PASSWORD = 'password'
+    DUMMY_AGE = 'age'
 
     def test_fields_default_value(self):
 
         user = User.objects.create_user(
             username=self.DUMMY_USERNAME,
             password=self.DUMMY_PASSWORD,
+            age=10,
         )
         self.assertEqual(user.first_name, '')
         self.assertEqual(user.last_name, '')
         self.assertEqual(user.username, self.DUMMY_USERNAME)
         self.assertEqual(user.img_profile, '')
+        self.assertEqual(user.age, 10)
         self.assertEqual(user.following_users.count(), 0)
         self.assertEqual(user, authenticate(
             username=self.DUMMY_USERNAME,
@@ -26,7 +29,8 @@ class UserModelTest(TransactionTestCase):
 
     def test_follow(self):
         mina, hyeri, yura, sojin = [User.objects.create(
-            username=f'{name}'
+            username=f'{name}',
+            age=10
         ) for name in ['민아', '혜리', '유라', '소진']]
 
         mina.follow_toggle(hyeri)
