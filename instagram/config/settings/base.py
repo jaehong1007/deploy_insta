@@ -28,6 +28,10 @@ CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.jso
 
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 
+#AUTH
+SUPERUSER_USERNAME = config_secret_common['django']['username']
+SUPERUSER_PASSWORD = config_secret_common['django']['password']
+SUPERUSER_EMAIL = config_secret_common['django']['email']
 # Static Paths
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
